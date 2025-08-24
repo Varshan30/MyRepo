@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-# Get commit dates
+# Get commit dates from git log
 log = subprocess.check_output(["git", "log", "--pretty=format:%ad", "--date=short"]).decode().splitlines()
 dates = pd.to_datetime(log)
 commits_per_day = dates.value_counts().sort_index()
@@ -18,8 +18,4 @@ def update(frame):
 
 ani = FuncAnimation(fig, update, frames=len(commits_per_day), repeat=False)
 
-# Save as MP4 (needs FFmpeg)
-ani.save("commit_animation.mp4", writer="ffmpeg", fps=10)
-
-# OR save as GIF (requires Pillow)
-# ani.save("commit_animation.gif", writer="pillow", fps=10)
+plt.show()  # ✅ Display animation instead of saving
